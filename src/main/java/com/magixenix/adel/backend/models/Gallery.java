@@ -40,7 +40,7 @@ public class Gallery extends AuditModel {
 
     public String getUrl() {
 
-        return "api.adels.xyz"+url;
+        return "api.adels.xyz/"+url;
     }
 
 

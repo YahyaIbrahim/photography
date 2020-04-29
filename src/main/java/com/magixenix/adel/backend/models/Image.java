@@ -40,7 +40,7 @@ public class Image extends AuditModel implements Serializable {
 
     public String getUrl() {
 
-        return "api.adels.xyz"+url;
+        return "api.adels.xyz/"+url;
     }
 
 }
