@@ -24,7 +24,7 @@ public class Gallery extends AuditModel {
     @NotNull
     @Column(name = "sub_title")
     @Pattern(regexp = "[\\w\\s]+")
-    private String sub_title;
+    private String subTitle;
 
     @NotNull
     @Column(name = "url")
@@ -36,6 +36,12 @@ public class Gallery extends AuditModel {
             CascadeType.MERGE
     })
     private Set<Image> images;
+
+
+    public String getUrl() {
+
+        return "https://33f486a6.ngrok.io/"+url;
+    }
 
 
 

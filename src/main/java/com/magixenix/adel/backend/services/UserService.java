@@ -64,9 +64,12 @@ public class UserService {
     public String addFavorite(String email,String url){
 
         User user=userRepository.findByEmail(email);
-        Image image = imageRepository.findByUrl(url);
+        Image image = imageRepository.findByUrlLike(url);
+        System.out.println(image);
 
-        Favorite favorite = new Favorite(user,image);
+       Favorite favorite = new Favorite();
+       favorite.setImage(image);
+       favorite.setUser(user);
 
         favoriteRepo.save(favorite);
 
@@ -76,9 +79,11 @@ public class UserService {
     public String deleteFavorite(String email,String url){
 
         User user=userRepository.findByEmail(email);
-        Image image = imageRepository.findByUrl(url);
+        Image image = imageRepository.findByUrlLike(url);
 
-        Favorite favorite = new Favorite(user,image);
+        Favorite favorite = new Favorite();
+        favorite.setImage(image);
+        favorite.setUser(user);
 
         favoriteRepo.delete(favorite);
 
@@ -86,15 +91,12 @@ public class UserService {
     }
 
 
-    public List<String> loadImages(String email){
+    public List<Favorite> loadImages(String email){
         User u = userRepository.findByEmail(email);
         List<Favorite> favorites = favoriteRepo.findByUser(u);
-        List<String> images = null;
 
-        for (Favorite i:favorites) {
-            images.add(i.getImage().getUrl());
-        }
 
-        return images;
+
+        return favorites;
     }
 }

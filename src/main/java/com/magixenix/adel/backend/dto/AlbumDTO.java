@@ -13,8 +13,9 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AlbumDTO {
 
+    private String email;
 
-    private String title;
+    private String url;
 
 
 

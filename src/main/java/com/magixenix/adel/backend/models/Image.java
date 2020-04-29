@@ -10,9 +10,12 @@ import org.hibernate.annotations.Proxy;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.security.cert.LDAPCertStoreParameters;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,14 +26,21 @@ import java.io.Serializable;
 @Transactional
 public class Image extends AuditModel implements Serializable {
 
+
+
     @NotNull
     @Column(name = "url")
-    @Pattern(regexp = "[\\w\\s]+")
     private String url;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "gallery_id", referencedColumnName = "id")
     private Gallery gallery;
+
+
+    public String getUrl() {
+
+        return "https://33f486a6.ngrok.io/"+url;
+    }
 
 }
