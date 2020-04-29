@@ -71,7 +71,7 @@ public class RegistrationService {
         VerificationToken myToken = new VerificationToken(token, user);
         verificationToken.save(myToken);
 
-        String path = "http://"+httpServletRequest.getServerName();
+        String path = "https://adels.xyz";
 
         String recipientAddress = user.getEmail();
         String subject = "Adel - Registration Confirmation";
