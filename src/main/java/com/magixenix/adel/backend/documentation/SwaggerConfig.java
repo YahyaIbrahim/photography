@@ -41,7 +41,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .description("\"Adel REST API.\"")
                 .version("1.0.0")
                 .license("Adel Version 1.0")
-                .contact(new Contact("Voyager", "https://adel.com", "yibrahim.py@gmail.com"))
+                .contact(new Contact("Adel", "https://adels.xyz", "yibrahim.py@gmail.com"))
                 .build();
     }
 
