@@ -7,12 +7,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Properties;
 
 @SpringBootApplication
 @Configuration
 @EnableJpaAuditing
+@EnableSwagger2
 public class BackendApplication {
     @Bean
     public JavaMailSender getJavaMailSender() {
