@@ -38,7 +38,7 @@ public class UserController {
     @PostMapping(path = "/add",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public SuccessString addToFavorite(@RequestBody AlbumDTO albumDTO) {
         //String serverPath = "https://"+httpServletRequest.getServerName()+"/";
-        String path = "https://adels.xyz/";
+        String path = "http://adels.xyz/";
         String string = albumDTO.getUrl().substring(path.length());
         return new SuccessString(200,profileService.addFavorite(albumDTO.getEmail(),string),null);
     }
@@ -48,7 +48,7 @@ public class UserController {
     @DeleteMapping(path = "/delete",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public SuccessString deleteFavorite(@RequestBody AlbumDTO albumDTO) {
        // String serverPath = "https://"+httpServletRequest.getServerName()+"/";
-        String path = "https://adels.xyz/";
+        String path = "http://adels.xyz/";
         String string = albumDTO.getUrl().substring(path.length());
         return new SuccessString(200,profileService.deleteFavorite(albumDTO.getEmail(),string),null);
     }
