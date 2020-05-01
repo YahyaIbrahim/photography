@@ -20,6 +20,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     @Bean
     public Docket apiDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .host("api.adels.xyz")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.magixenix.adel"))
                 .build()
