@@ -1,6 +1,7 @@
 package com.magixenix.adel.backend.controllers;
 
 import com.magixenix.adel.backend.dto.RegistrationDTO;
+import com.magixenix.adel.backend.dto.TokenDTO;
 import com.magixenix.adel.backend.exceptions.SuccessEntity;
 import com.magixenix.adel.backend.models.User;
 import com.magixenix.adel.backend.models.VerificationToken;
@@ -35,30 +36,26 @@ public class RegistrationController {
     }
 
     @ApiOperation(value = "registrationConfirm")
-    @GetMapping(path = "/registrationConfirm")
-    public String confirmRegistration
-            (@RequestParam("token") String token) {
-        VerificationToken verificationToken = tokenRepository.findByToken(token);
+    @PostMapping(path = "/registrationConfirm")
+    public SuccessEntity confirmRegistration
+            (@RequestBody TokenDTO token) {
+        VerificationToken verificationToken = tokenRepository.findByToken(token.getToken());
         if (verificationToken == null) {
             String message = "Invalid token";
-            return message;
+            return new SuccessEntity(400, null,message);
         }
         User user = verificationToken.getProfile();
         Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
             String messageValue = "Verification link expired!";
-            return messageValue;
-
-        }
-        if(user.isEnabled()){
-            return "This User has active this account before";
+            return new SuccessEntity(400, null,messageValue);
 
         }
 
         user.setEnabled(true);
         userService.save(user);
 
-        return "Success SignUp";
+        return new SuccessEntity(200, user, null);
 
     }
 

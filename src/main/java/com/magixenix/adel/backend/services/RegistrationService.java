@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -67,25 +68,30 @@ public class RegistrationService {
 
     private void confirmRegistration(Long userid) {
         User user = userRepository.findFirstById(userid);
-        String token = UUID.randomUUID().toString();
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+
+        // this will convert any number sequence into 6 character.
+
+        String token = String.format("%06d", number);
         VerificationToken myToken = new VerificationToken(token, user);
         verificationToken.save(myToken);
 
-        String path = "https://adels.xyz";
+        //String path = "https://adels.xyz";
 
         String recipientAddress = user.getEmail();
         String subject = "Adel - Registration Confirmation";
-        String confirmationUrl = "/registrationConfirm?token=" + token;
+        //String confirmationUrl = "/registrationConfirm?token=" + token;
         String message = "Thank you for creating account with Adel, " + user.getName() +
-                "\n\nWelcome to Adel!\n" +
+                "\n\nWelcome to Adel's Application!\n" +
                 "Please activate your account!\n\n" +
-                "This link will be available for 24 hours only ";
+                "This number will be available for 24 hours only ";
 
 
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);
-        email.setText(message + path + confirmationUrl);
+        email.setText(message + token);
         mailSender.send(email);
 
     }
