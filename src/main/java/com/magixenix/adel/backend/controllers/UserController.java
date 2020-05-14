@@ -2,6 +2,7 @@ package com.magixenix.adel.backend.controllers;
 
 
 import com.magixenix.adel.backend.dto.AlbumDTO;
+import com.magixenix.adel.backend.dto.EmailDTO;
 import com.magixenix.adel.backend.exceptions.SuccessEntity;
 import com.magixenix.adel.backend.exceptions.SuccessList;
 import com.magixenix.adel.backend.exceptions.SuccessString;
@@ -64,6 +65,20 @@ public class UserController {
         }
 
     }
+
+    @ApiOperation(value = "change password")
+    @PostMapping(path = "/changepassword",produces = "application/json")
+    public SuccessString changePassword(@RequestBody EmailDTO email) {
+        try {
+            profileService.changePassword(email.getEmail());
+            return new SuccessString(200,  "please check your email", null);
+        }catch (NullPointerException d) {
+            return new SuccessString(400,  null, "this email didn't signup ");
+        }
+
+    }
+
+
 
 
 

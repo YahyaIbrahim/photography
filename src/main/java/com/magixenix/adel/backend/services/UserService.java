@@ -5,15 +5,20 @@ import com.magixenix.adel.backend.exceptions.SuccessString;
 import com.magixenix.adel.backend.models.Favorite;
 import com.magixenix.adel.backend.models.Image;
 import com.magixenix.adel.backend.models.User;
+import com.magixenix.adel.backend.models.VerificationToken;
 import com.magixenix.adel.backend.repositories.FavoriteRepo;
 import com.magixenix.adel.backend.repositories.ImageRepository;
 import com.magixenix.adel.backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -27,6 +32,12 @@ public class UserService {
 
     @Autowired
     FavoriteRepo favoriteRepo;
+
+    @Autowired
+    JavaMailSender mailSender;
+
+    @Autowired
+    HttpServletRequest httpServletRequest;
 
     public void save(User profile){
         userRepository.save(profile);
@@ -99,4 +110,35 @@ public class UserService {
 
         return favorites;
     }
+
+
+    public void changePassword(String email1) {
+        User user = userRepository.findByEmail(email1);
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+
+        // this will convert any number sequence into 6 character.
+
+        String token = String.format("%08d", number);
+        user.setPassword(token);
+        userRepository.save(user);
+
+        //String path = "https://adels.xyz";
+
+        String recipientAddress = user.getEmail();
+        String subject = "Adel - Registration Confirmation";
+        //String confirmationUrl = "/registrationConfirm?token=" + token;
+        String message = "Thank you for creating account with Adel, " + user.getName() +
+                "\n\nWelcome to Adel's Application!\n" +
+                "your Password has been changed to " + token;
+
+        SimpleMailMessage email = new SimpleMailMessage();
+        email.setTo(recipientAddress);
+        email.setSubject(subject);
+        email.setText(message);
+        mailSender.send(email);
+
+    }
+
+
 }
